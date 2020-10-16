@@ -8,7 +8,9 @@ const router = express.Router();
 //@Rout       /api/products
 //@access     Public
 router.get('/',asyncHandler(async (req,res)=>{
+    
     const products = await  Product.find({});
+    
     res.json(products);
 }));
 
