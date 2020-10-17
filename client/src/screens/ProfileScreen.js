@@ -45,8 +45,9 @@ const ProfileScreen = ({history}) => {
             <Col md={3} >
             {error && <Message variant='danger'>{error}</Message>} 
             {userUpdate.error && <Message variant='danger'>{userUpdate.error}</Message>} 
+            {userUpdate.success && <Message variant='success'>Profile Updated Successfully.</Message>} 
                 {message && <Message variant='danger'>{message}</Message>} 
-                {(loading || userUpdate.loading) && <Loader/>}
+                {(loading) && <Loader/>}
             <h4>
                 <i className="fas fa-user"></i> {name.split(' ')[0]}'s Profile
             </h4>
