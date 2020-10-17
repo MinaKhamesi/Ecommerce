@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
-import {Row, Col, Form, ListGroup, Card, Image, Button, ListGroupItem, FormControl} from 'react-bootstrap';
+import {Row, Col, ListGroup, Card, Image, Button, ListGroupItem, FormControl} from 'react-bootstrap';
 import Message from '../components/Message';
 import {addToCart, removeItem} from '../actions/cartActions';
 
@@ -9,15 +9,15 @@ import {addToCart, removeItem} from '../actions/cartActions';
 const CartScreen = ({match, location, history}) => {
 
     const productId = match.params.id;
-    const qyt = location.search ? Number(location.search.split('=')[1]) : 1;
+    const qty = location.search ? Number(location.search.split('=')[1]) : 1;
     const dispatch = useDispatch();
     useEffect(()=>{
 
         if(productId){
-            dispatch(addToCart(productId,qyt));
+            dispatch(addToCart(productId,qty));
         }
         
-    },[match,dispatch]);
+    },[match,dispatch, productId,qty]);
 
     const cart = useSelector(state=>state.cart);
     const {cartItems} = cart;
