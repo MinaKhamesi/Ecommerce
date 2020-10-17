@@ -5,6 +5,7 @@ import colors from 'colors';
 import connectDB from './config/db.js';
 
 import ProductRouter from './routes/ProductRoute.js';
+import UserRouter from './routes/UserRoute.js';
 
 const app = express();
 
@@ -12,11 +13,14 @@ dotenv.config();
 
 connectDB();
 
+app.use(express.json());
+
 app.get('/',(req,res)=>{
     res.send('API is running')
 })
 
 app.use('/api/products',ProductRouter);
+app.use('/api/users',UserRouter);
 
 
 app.use(notFound);
