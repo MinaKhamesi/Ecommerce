@@ -23,8 +23,6 @@ export const createOrder = asyncHandler(async (req,res)=>{
         return;
     }
 
-    
-
     const order = await  new Order({
         user:req.user._id,
         orderItems, 
@@ -37,4 +35,21 @@ export const createOrder = asyncHandler(async (req,res)=>{
 
    const createdOrder =  await order.save();
     res.status(201).json(createdOrder)
+});
+
+
+//@Desc       get an order by id
+//@Rout       GET   /api/orders/:id
+//@access     Private
+export const getOrderById = asyncHandler(async (req,res)=>{
+    
+    const order = await Order.findById(req.params.id).populate('user','name email');
+
+    if(!order){
+        res.status(404);
+        throw new Error('Order Not Found!');
+    }
+
+    res.json(order)
+
 });
