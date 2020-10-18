@@ -34,7 +34,7 @@ export const getOrderById = (id) => async (dispatch,getState) =>{
                 authorization: `Bearer ${getState().userLogin.userInfo.token}`
             }
         }
-        const {data} = await axios.get(`/orders/${id}`,formData,config);
+        const {data} = await axios.get(`/orders/${id}`,config);
 
         dispatch({type:ORDER_DETAILS_SUCCESS, payload: data});
         
