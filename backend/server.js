@@ -6,6 +6,7 @@ import connectDB from './config/db.js';
 
 import ProductRouter from './routes/ProductRoute.js';
 import UserRouter from './routes/UserRoute.js';
+import OrderRouter from './routes/OrderRoute.js';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.get('/',(req,res)=>{
 
 app.use('/api/products',ProductRouter);
 app.use('/api/users',UserRouter);
+app.use('/api/orders',OrderRouter);
 
 
 app.use(notFound);
