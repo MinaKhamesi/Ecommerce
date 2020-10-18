@@ -1,13 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import { Form, Button, Row, Col, ListGroupItem, ListGroup, Image, Card} from 'react-bootstrap';
 import CheckoutSteps from '../components/CheckoutSteps';
 import Message from '../components/Message';
+import {createOrder} from '../actions/orderActions';
 
-const PlaceOrderScreen = () => {
+const PlaceOrderScreen = ({history}) => {
+
+    const dispatch = useDispatch();
+
+
+
     const cart = useSelector(state=>state.cart);
     const { shippingAddress, cartItems, paymentMethod} = cart;
+
+    const orderCreate = useSelector(state=>state.orderCreate);
+    const {error, success, order} = orderCreate;
+
+    useEffect(()=>{
+        if(success){
+            history.push(`/orders/${order._id}`);
+        }
+    },[order, history])
 
     const addDecimals = num => (Math.round(num*100)/100).toFixed(2);
 
@@ -27,8 +42,19 @@ const PlaceOrderScreen = () => {
 
     const [numItems, price, shippingPrice, taxPrice, totalPrice] = calculatePrices();
 
+
     const placeOrderHandler = e =>{
         e.preventDefault();
+        const cartItemsWithProduct = cartItems.map(item=>{
+            return {...item, product:item.id}})
+        dispatch(createOrder({
+            orderItems: cartItemsWithProduct,
+            shippingAddress,
+            paymentMethod,
+            taxPrice,
+            shippingPrice,
+            totalPrice,
+        }))
     }
 
     return (
@@ -67,7 +93,7 @@ const PlaceOrderScreen = () => {
                                                     
                                                 </Col>
                                                 <Col md={4}>
-                                                    {item.qty} x {item.price} = {item.qty*item.price}
+                                                    {item.qty} x {item.price} = {(item.qty*item.price).toFixed(2)}
                                                 </Col>
                                             </Row>
                                         </ListGroupItem>)}
@@ -112,8 +138,11 @@ const PlaceOrderScreen = () => {
                                 <Col>{totalPrice}</Col>
                              </Row>
                          </ListGroupItem>
+                         
+                            {error &&<ListGroupItem> <Message variant='danger'>{error}</Message></ListGroupItem>}
+                         
                          <ListGroupItem>
-                             <Button className='btn-block' type='button' disabled={cartItems.length===0} onclick={e=>placeOrderHandler(e)}>Place Order</Button>
+                             <Button className='btn-block' type='button' disabled={cartItems.length===0} onClick={e=>placeOrderHandler(e)}>Place Order</Button>
                          </ListGroupItem>
                      </ListGroup>
                  </Card>
