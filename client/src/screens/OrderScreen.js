@@ -22,7 +22,7 @@ const OrderScreen = ({match}) => {
         if(!order || order._id!==match.params.id){
             dispatch(getOrderById(match.params.id))
         }    
-    },[order])
+    },[order, match])
 
     
 
