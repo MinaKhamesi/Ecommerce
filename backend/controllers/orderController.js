@@ -80,3 +80,15 @@ export const updateOrderToPaid = asyncHandler(async (req,res)=>{
     res.json(updatedOrder);
 
 });
+
+
+//@Desc       get current user's orders
+//@Rout       GET   /api/orders/myorders
+//@access     Private
+export const getMyOrders = asyncHandler(async (req,res)=>{
+    
+    const orders = await Order.find({user:req.user._id});
+
+    res.json(orders);
+
+});
