@@ -46,9 +46,11 @@ export const getOrderById = (id) => async (dispatch,getState) =>{
 }
 
 
-export const payOrder = (id) => async (dispatch,getState) =>{
+export const payOrder = (id,paymentResult) => async (dispatch,getState) =>{
     
     dispatch({type:ORDER_PAY_REQUEST});
+
+    
 
     try {
         const config = {

@@ -21,6 +21,7 @@ const ShippingScreen = ({history}) => {
         e.preventDefault();
         dispatch(saveAddress({address,city,country,postalCode}));
         history.push('/payment');
+        
     }
 
     return (

@@ -11,7 +11,6 @@ const PlaceOrderScreen = ({history}) => {
     const dispatch = useDispatch();
 
 
-
     const cart = useSelector(state=>state.cart);
     const { shippingAddress, cartItems, paymentMethod} = cart;
 
