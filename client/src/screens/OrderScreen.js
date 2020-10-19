@@ -3,11 +3,12 @@ import axios from 'axios';
 import { PayPalButton } from "react-paypal-button-v2";
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import { Form, Button, Row, Col, ListGroupItem, ListGroup, Image, Card} from 'react-bootstrap';
+import {  Row, Col, ListGroupItem, ListGroup, Image, Card} from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import {getOrderById, payOrder} from '../actions/orderActions';
-import {ORDER_PAY_RESET} from '../constants/orderConstants';
+import {ORDER_CREATE_RESET, ORDER_PAY_RESET} from '../constants/orderConstants';
+import { CART_ITEMS_RESET } from '../constants/cartConstants';
 
 const OrderScreen = ({match}) => {
 
@@ -44,6 +45,7 @@ const OrderScreen = ({match}) => {
 
         if(!order || order._id!==match.params.id || paySuccess){
             dispatch({type:ORDER_PAY_RESET})
+            dispatch({type:ORDER_CREATE_RESET});
             dispatch(getOrderById(match.params.id))
 
         } else if(!order.isPaid){
@@ -59,8 +61,9 @@ const OrderScreen = ({match}) => {
     
 
     const successPaymentHandler = paymentResult =>{
-        console.log(paymentResult);
-        dispatch(payOrder(match.params.id,paymentResult))
+        
+        dispatch(payOrder(match.params.id,paymentResult));
+        dispatch({type:CART_ITEMS_RESET})
     }
 
     return (

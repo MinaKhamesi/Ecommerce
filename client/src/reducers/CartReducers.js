@@ -1,4 +1,4 @@
-import {CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_ADDRESS, CART_SAVE_PAYMENT_METHOD} from '../constants/cartConstants';
+import {CART_ADD_ITEM, CART_ITEMS_RESET, CART_REMOVE_ITEM, CART_SAVE_ADDRESS, CART_SAVE_PAYMENT_METHOD} from '../constants/cartConstants';
 
 export const cartReducer = (state={cartItems : [], shippingAddress:{}}, action) =>{
     const {type,payload} = action;
@@ -27,6 +27,12 @@ export const cartReducer = (state={cartItems : [], shippingAddress:{}}, action) 
             return {
                 ...state,
                 cartItems : state.cartItems.filter(item=>item.id !== payload)
+            }
+        case CART_ITEMS_RESET:
+            window.localStorage.setItem('cartItems',[]);
+            return {
+                ...state,
+                cartItems: []
             }
         case CART_SAVE_ADDRESS:
             return {
