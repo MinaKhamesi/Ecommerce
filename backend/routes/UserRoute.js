@@ -1,11 +1,11 @@
 import express from 'express';
-import {protect} from '../middleware/auth.js';
-import {authUser,registerUser , getProfile, updateProfile} from '../controllers/userController.js';
+import {isAdmin, protect} from '../middleware/auth.js';
+import {authUser,registerUser , getProfile, updateProfile, getUsers} from '../controllers/userController.js';
 
 
 const router = express.Router();
 
-router.route('/').post(registerUser);
+router.route('/').post(registerUser).get(protect, isAdmin, getUsers);
 
 router.route('/login').post(authUser);
 
