@@ -36,12 +36,14 @@ export const protect = asyncHandler(async (req,res,next) =>{
 })
 
 export const isAdmin = asyncHandler(async (req,res,next) =>{
-    
+    console.log(req.user)
     if (req.user && req.user.isAdmin){
         next();
-    }else{
+        
+    }
+    //when I put this line in an else it wont work and will return the information to none admin users.
         res.status(401);
         throw new Error('Not authorized as an admin');
-    }
+    
 })
 
