@@ -1,4 +1,4 @@
-import { USER_DELETE_FAIL, USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_LISTS_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_RESET, USER_LIST_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_RESET, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS} from '../constants/userConstants';
+import { USER_DELETE_FAIL, USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_RESET, USER_LIST_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_RESET, USER_REGISTER_SUCCESS, USER_UPDATE_BY_ADMIN_FAIL, USER_UPDATE_BY_ADMIN_REQUEST, USER_UPDATE_BY_ADMIN_SUCCESS,USER_UPDATE_BY_ADMIN_RESET, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS} from '../constants/userConstants';
 
 
 export const userLoginReducer = (state={ },action) =>{
@@ -78,6 +78,36 @@ export const userDeleteReducer = (state={},action) =>{
             return { loading:false, success:true}
         case USER_DELETE_FAIL:
             return {loading:false, error:payload}
+        default:
+            return state;
+}
+}
+
+export const userDetailsReducer = (state={},action) =>{
+    const {type, payload} = action;
+    switch (type) {
+        case USER_DETAILS_REQUEST:
+            return{loading:true}
+        case USER_DETAILS_SUCCESS:
+            return { loading:false, user:payload}
+        case USER_DETAILS_FAIL:
+            return {loading:false, error:payload}
+        default:
+            return state;
+}
+}
+
+export const userUpdateAdminReducer = (state={ },action) =>{
+    const {type, payload} = action;
+    switch (type) {
+        case USER_UPDATE_BY_ADMIN_REQUEST:
+            return{ loading:true}
+        case USER_UPDATE_BY_ADMIN_SUCCESS:
+            return { loading:false, userInfo:payload, success:true}
+        case USER_UPDATE_BY_ADMIN_FAIL:
+            return {loading:false, error:payload}
+        case USER_UPDATE_BY_ADMIN_RESET:
+            return {}
         default:
             return state;
 }
