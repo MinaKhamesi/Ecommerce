@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ORDER_DETAILS_RESET, ORDER_LIST_MY_RESET } from '../constants/orderConstants';
-import { USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_RESET, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS } from "../constants/userConstants"
+import { USER_DELETE_FAIL, USER_DELETE_REQUEST, USER_DELETE_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_RESET, USER_LIST_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_RESET, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS } from "../constants/userConstants"
 
 export const login = (email,password) => async (dispatch) =>{
     dispatch({type:USER_LOGIN_REQUEST});
@@ -31,8 +31,10 @@ export const logout = ()=>dispatch=>{
     dispatch({type:USER_LOGOUT});
     dispatch({type:USER_REGISTER_RESET});
     dispatch({type:USER_UPDATE_RESET});
+    dispatch({type:USER_LIST_RESET});
     dispatch({type:ORDER_LIST_MY_RESET});
     dispatch({type:ORDER_DETAILS_RESET});
+    
     localStorage.removeItem('userInfo');
 }
 
@@ -109,8 +111,23 @@ export const getUsers = () => async (dispatch,getState) =>{
         const err = error.response && error.response.data.message ? error.response.data.message : error.message
         dispatch({type:USER_LIST_FAIL,payload:err})
     }
+}
 
-    
+export const DeleteUserById = (id) => async (dispatch,getState) =>{
+    dispatch({type:USER_DELETE_REQUEST});
 
+    try {
+        const config = {
+            headers:{
+                authorization : `Bearer ${getState().userLogin.userInfo.token}`
+            }
+        }
+        await axios.delete(`/users/${id}`,config);
 
+        dispatch({type:USER_DELETE_SUCCESS});
+
+    } catch (error) {
+        const err = error.response && error.response.data.message ? error.response.data.message : error.message
+        dispatch({type:USER_DELETE_FAIL,payload:err})
+    }
 }
