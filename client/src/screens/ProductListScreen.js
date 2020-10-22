@@ -4,7 +4,8 @@ import {LinkContainer} from 'react-router-bootstrap';
 import {Table, Button, Row, Col} from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { getProducts, deleteProduct} from '../actions/ProductActions';
+import {PRODUCT_CREATE_RESET} from '../constants/productConstants';
+import { getProducts, deleteProduct, createProduct} from '../actions/ProductActions';
 
 const ProductListScreen = ({history}) => {
     const dispatch = useDispatch();
@@ -14,23 +15,46 @@ const ProductListScreen = ({history}) => {
 
     const userLogin = useSelector(state=>state.userLogin);
     const { userInfo} = userLogin;
+
     const productDelete = useSelector(state=>state.productDelete);
     const { error:deleteError, success , Loading:deleteLoading} = productDelete;
+
+    const productCreate = useSelector(state=>state.productCreate);
+    const { error:createError, success:createSuccess , Loading:createLoading, product} = productCreate;
+
+
     
     useEffect(()=>{
+        dispatch({type:PRODUCT_CREATE_RESET});
+        
         if(!userInfo || !userInfo.isAdmin){
             history.push('/login')
+        }
+        if(createSuccess){
+            history.push(`/admin/product/${product._id}/edit`)
         }else{
             dispatch(getProducts());
         }
-    }, [history, dispatch, userInfo, success]);
+    }, [history, dispatch, userInfo, success, createSuccess]);
+
+
+
+
+
 
     const deleteproductHandler = (id) =>{
         if(window.confirm(' Are you sure?')){
             dispatch(deleteProduct(id)); 
-        }
-       
+        } 
     }
+
+
+
+    const createNewProductHandler  = ()=>{
+        dispatch(createProduct())
+    }
+
+
     return (
         <>
         <Row>
@@ -38,15 +62,17 @@ const ProductListScreen = ({history}) => {
             <h1>products</h1>
             </Col>
             <Col md={3}>
-                <LinkContainer to='admin/newproduct'>
-                    <Button className='btn btn-success my-3'>
+                    <Button className='btn btn-success my-3' onClick={createNewProductHandler}>
                         <i className='fas  fa-plus'></i> Create New Product
                     </Button>
-                </LinkContainer>
             </Col>
         </Row>
          
         {success && <Message variant='success'>product Deleted Successfully</Message>}
+        {deleteError && <Message variant='danger'>{deleteError}</Message>}
+        {deleteLoading && <Loader />}
+        {createError && <Message variant='danger'>{createError}</Message>}
+        {createLoading && <Loader />}
 
 
         {loading? <Loader /> : error ? <Message variant='danger'>{error}</Message>: (
