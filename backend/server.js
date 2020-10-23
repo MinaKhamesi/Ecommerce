@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import {notFound, errorHandler} from './middleware/errorHandlerMiddleware.js';
 import dotenv from 'dotenv';
@@ -7,6 +8,7 @@ import connectDB from './config/db.js';
 import ProductRouter from './routes/ProductRoute.js';
 import UserRouter from './routes/UserRoute.js';
 import OrderRouter from './routes/OrderRoute.js';
+import UploadRouter from './routes/UploadRoute.js';
 
 const app = express();
 
@@ -23,9 +25,12 @@ app.get('/',(req,res)=>{
 app.use('/api/products',ProductRouter);
 app.use('/api/users',UserRouter);
 app.use('/api/orders',OrderRouter);
+app.use('/api/upload',UploadRouter);
 
 app.get('/api/config/paypal',(req,res)=>res.send(process.env.PAYPAL_CLIENT_ID));
 
+
+app.use('/uploads', express.static(path.join('.','/uploads')));
 
 app.use(notFound);
 app.use(errorHandler);
