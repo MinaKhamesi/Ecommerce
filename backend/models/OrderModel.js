@@ -51,7 +51,7 @@ const OrderSchema = new mongoose.Schema({
         required: true,
         default:false
     },
-    isDeliverde:{
+    isDelivered:{
         type: Boolean,
         required: true,
         default: false
