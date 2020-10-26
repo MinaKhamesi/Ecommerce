@@ -92,3 +92,14 @@ export const getMyOrders = asyncHandler(async (req,res)=>{
     res.json(orders);
 
 });
+
+//@Desc       get all orders
+//@Rout       GET   /api/orders
+//@access     Private/Admin
+export const getOrders = asyncHandler(async (req,res)=>{
+    
+    const orders = await Order.find({});
+
+    res.json(orders);
+
+});
