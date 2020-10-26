@@ -3,11 +3,11 @@ import axios from 'axios';
 import { PayPalButton } from "react-paypal-button-v2";
 import {Link} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {  Row, Col, ListGroupItem, ListGroup, Image, Card} from 'react-bootstrap';
+import {  Row, Col, ListGroupItem, ListGroup, Image, Card, Button} from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import {getOrderById, payOrder} from '../actions/orderActions';
-import {ORDER_CREATE_RESET, ORDER_PAY_RESET} from '../constants/orderConstants';
+import {getOrderById, payOrder, deliverOrder} from '../actions/orderActions';
+import {ORDER_CREATE_RESET, ORDER_DELIVERED_RESET, ORDER_PAY_RESET} from '../constants/orderConstants';
 import { CART_ITEMS_RESET } from '../constants/cartConstants';
 
 const OrderScreen = ({match}) => {
@@ -21,6 +21,12 @@ const OrderScreen = ({match}) => {
 
     const orderPay = useSelector(state=>state.orderPay);
     const { loading: payLoading , success:paySuccess} = orderPay;
+
+    const orderDeliver = useSelector(state=>state.orderDeliver);
+    const { loading: deliverLoading , success:deliverSuccess} = orderDeliver;
+
+    const userLogin = useSelector(state=>state.userLogin);
+    const { userInfo } = userLogin;
 
     
     
@@ -43,8 +49,9 @@ const OrderScreen = ({match}) => {
 
 
 
-        if(!order || order._id!==match.params.id || paySuccess){
-            dispatch({type:ORDER_PAY_RESET})
+        if(!order || order._id!==match.params.id || paySuccess || deliverSuccess){
+            dispatch({type:ORDER_PAY_RESET});
+            dispatch({type:ORDER_DELIVERED_RESET});
             dispatch({type:ORDER_CREATE_RESET});
             dispatch(getOrderById(match.params.id))
 
@@ -56,7 +63,8 @@ const OrderScreen = ({match}) => {
             }
            
         }  
-    },[order, match, paySuccess])
+
+    },[order, match, paySuccess, deliverSuccess])
 
     
 
@@ -162,6 +170,10 @@ const OrderScreen = ({match}) => {
                                         onSuccess={successPaymentHandler}
                                       />
                                     )}
+                                    </ListGroupItem>}
+
+                                    {!order.isDelivered && userInfo.isAdmin && <ListGroupItem>
+                                    <Button className='btn btn-block' onClick={e=>dispatch(deliverOrder(match.params.id))}>Delivered</Button>
                                     </ListGroupItem>}
 
                              </ListGroup>

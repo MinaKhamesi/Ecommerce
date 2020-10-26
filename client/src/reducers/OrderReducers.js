@@ -108,8 +108,6 @@ export const orderListAllReducer = (state={orders:[]}, action) =>{
                 loading:false,
                 error:payload
             }
-        case ORDER_LIST_ALL_RESET:
-            return {}
         default:
             return state
     }
