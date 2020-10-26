@@ -105,7 +105,7 @@ export const getOrders = asyncHandler(async (req,res)=>{
 });
 
 //@Desc       mark an order as delivered
-//@Rout       PUT   /api/orders/:id
+//@Rout       PUT   /api/orders/:id/deliver
 //@access     Private/Admin
 export const deliverOrder = asyncHandler(async (req,res)=>{
     

@@ -10,7 +10,7 @@ import {getOrderById, payOrder, deliverOrder} from '../actions/orderActions';
 import {ORDER_CREATE_RESET, ORDER_DELIVERED_RESET, ORDER_PAY_RESET} from '../constants/orderConstants';
 import { CART_ITEMS_RESET } from '../constants/cartConstants';
 
-const OrderScreen = ({match}) => {
+const OrderScreen = ({match, history}) => {
 
     const dispatch = useDispatch();
 
@@ -32,7 +32,9 @@ const OrderScreen = ({match}) => {
     
     
     useEffect(()=>{
-
+        if(!userInfo){
+            history.push('/login')
+        }
         const addPayPalScript = async ()=>{
             const {data:clientId} = await axios.get('/api/config/paypal');
             const script = document.createElement('script');
@@ -64,7 +66,7 @@ const OrderScreen = ({match}) => {
            
         }  
 
-    },[order, match, paySuccess, deliverSuccess])
+    },[order, match, paySuccess, deliverSuccess, userInfo])
 
     
 
@@ -172,8 +174,8 @@ const OrderScreen = ({match}) => {
                                     )}
                                     </ListGroupItem>}
 
-                                    {!order.isDelivered && userInfo.isAdmin && <ListGroupItem>
-                                    <Button className='btn btn-block' onClick={e=>dispatch(deliverOrder(match.params.id))}>Delivered</Button>
+                                    {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered &&  <ListGroupItem>
+                                    <Button className='btn btn-block' onClick={e=>dispatch(deliverOrder(match.params.id))}>Mark As Delivered</Button>
                                     </ListGroupItem>}
 
                              </ListGroup>

@@ -117,7 +117,7 @@ export const deliverOrder = (id) => async (dispatch,getState) =>{
                 authorization: `Bearer ${getState().userLogin.userInfo.token}`
             }
         }
-         await axios.put(`/api/orders/${id}`,{}, config);
+         await axios.put(`/api/orders/${id}/deliver`,{}, config);
 
         dispatch({type:ORDER_DELIVERED_SUCCESS});
         
