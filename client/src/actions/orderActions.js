@@ -12,7 +12,7 @@ export const createOrder = (formData) => async (dispatch,getState) =>{
                 authorization: `Bearer ${getState().userLogin.userInfo.token}`
             }
         }
-        const {data} = await axios.post('/orders',formData,config);
+        const {data} = await axios.post('/api/orders',formData,config);
 
         dispatch({type:ORDER_CREATE_SUCCESS, payload: data});
         
@@ -34,7 +34,7 @@ export const getOrderById = (id) => async (dispatch,getState) =>{
                 authorization: `Bearer ${getState().userLogin.userInfo.token}`
             }
         }
-        const {data} = await axios.get(`/orders/${id}`,config);
+        const {data} = await axios.get(`/api/orders/${id}`,config);
 
         dispatch({type:ORDER_DETAILS_SUCCESS, payload: data});
         
@@ -56,7 +56,7 @@ export const payOrder = (id,paymentResult) => async (dispatch,getState) =>{
                 authorization: `Bearer ${getState().userLogin.userInfo.token}`
             }
         }
-        const {data} = await axios.put(`/orders/${id}/pay`, paymentResult , config);
+        const {data} = await axios.put(`/api/orders/${id}/pay`, paymentResult , config);
 
         dispatch({type:ORDER_PAY_SUCCESS, payload: data});
         
@@ -76,7 +76,7 @@ export const getMyOrders = () => async (dispatch,getState) =>{
                 authorization: `Bearer ${getState().userLogin.userInfo.token}`
             }
         }
-        const {data} = await axios.get(`/orders/myorders`, config);
+        const {data} = await axios.get(`/api/orders/myorders`, config);
 
         dispatch({type:ORDER_LIST_MY_SUCCESS, payload: data});
         

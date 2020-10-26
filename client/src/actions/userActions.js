@@ -11,7 +11,7 @@ export const login = (email,password) => async (dispatch) =>{
                 'Content-Type': 'application/json'
             }
         }
-        const {data} = await axios.post('/users/login',{email, password},config);
+        const {data} = await axios.post('/api/users/login',{email, password},config);
 
         dispatch({type:USER_LOGIN_SUCCESS, payload: data})
 
@@ -48,7 +48,7 @@ export const register = (name, email,password) => async (dispatch) =>{
                 'Content-Type': 'application/json'
             }
         }
-        const {data} = await axios.post('/users',{name, email, password},config);
+        const {data} = await axios.post('/api/users',{name, email, password},config);
 
         dispatch({type:USER_REGISTER_SUCCESS, payload: data});
         dispatch({type:USER_LOGIN_SUCCESS, payload: data});
@@ -76,7 +76,7 @@ export const updateUserInfo = (name, email,password) => async (dispatch,getState
                 authorization : `Bearer ${getState().userLogin.userInfo.token}`
             }
         }
-        const {data} = await axios.put('/users/profile',{name, email, password},config);
+        const {data} = await axios.put('/api/users/profile',{name, email, password},config);
 
         dispatch({type:USER_UPDATE_SUCCESS, payload:data});
         dispatch({type:USER_REGISTER_SUCCESS, payload: data});
@@ -103,7 +103,7 @@ export const getUsers = () => async (dispatch,getState) =>{
                 authorization : `Bearer ${getState().userLogin.userInfo.token}`
             }
         }
-        const {data} = await axios.get('/users',config);
+        const {data} = await axios.get('/api/users',config);
 
         dispatch({type:USER_LIST_SUCCESS, payload:data});
 
@@ -122,7 +122,7 @@ export const DeleteUserById = (id) => async (dispatch,getState) =>{
                 authorization : `Bearer ${getState().userLogin.userInfo.token}`
             }
         }
-        await axios.delete(`/users/${id}`,config);
+        await axios.delete(`/api/users/${id}`,config);
 
         dispatch({type:USER_DELETE_SUCCESS});
 
@@ -141,7 +141,7 @@ export const getUserDetails = (id) => async (dispatch,getState) =>{
                 authorization : `Bearer ${getState().userLogin.userInfo.token}`
             }
         }
-        const {data} = await axios.get(`/users/${id}`,config);
+        const {data} = await axios.get(`/api/users/${id}`,config);
 
         dispatch({type:USER_DETAILS_SUCCESS, payload:data});
 
@@ -162,7 +162,7 @@ export const updateUserByAdmin = (id, name, email,isAdmin) => async (dispatch,ge
                 authorization : `Bearer ${getState().userLogin.userInfo.token}`
             }
         }
-        const {data} = await axios.put(`/users/${id}`,{name, email, isAdmin},config);
+        const {data} = await axios.put(`/api/users/${id}`,{name, email, isAdmin},config);
 
         dispatch({type:USER_UPDATE_BY_ADMIN_SUCCESS, payload:data});
         dispatch({type:USER_DETAILS_SUCCESS, payload:data});

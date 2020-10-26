@@ -64,19 +64,23 @@ const EditProductScreen = ({match}) => {
                 }
             }
 
-            const { data } = axios.post(`api/upload`, formData, config);
+            const { data } = await axios.post(`/api/upload`, formData, config);
             setImage(data);
             setUploading(false);
+
         } catch (err) {
             console.log(err);
             setUploading(false);
         }
 
     }
+
+
     const handleUpdate = e =>{
         e.preventDefault();
         dispatch(updateProduct(match.params.id,{name,brand,category,image,description,countInStock,price}))
     }
+    
 
     return (
         <>
@@ -91,7 +95,7 @@ const EditProductScreen = ({match}) => {
             <Form onSubmit={e=>handleUpdate(e)} className='mt-3'>
             <Form.Group controlId='name'>
                         <Form.Label>Name</Form.Label>
-                        <Form.Control type='name' placeholder='Enter name' value={name} onChange={e=>setName(e.target.value)}></Form.Control>
+                        <Form.Control type='text' placeholder='Enter name' value={name} onChange={e=>setName(e.target.value)}></Form.Control>
                 </Form.Group>
                 <Form.Group controlId='price'>
                         <Form.Label>price</Form.Label>
@@ -100,9 +104,10 @@ const EditProductScreen = ({match}) => {
                 <Form.Group controlId='image'>
                         <Form.Label>Image</Form.Label>
                         <Form.Control type='text' placeholder='Enter image url' value={image} onChange={e=>setImage(e.target.value)}></Form.Control>
-                </Form.Group>
-                <Form.File id='image-file' label='Choose File' custom onChange={uploadFileHandler}></Form.File>
+                        <Form.File id='image-file' label='Choose File' custom onChange={e=>uploadFileHandler(e)}></Form.File>
                 {uploading && <Loader /> }
+                </Form.Group>
+                
                 <Form.Group controlId='countInStock'>
                         <Form.Label>count In Stock</Form.Label>
                         <Form.Control type='number' placeholder='Enter count In Stock' value={countInStock} onChange={e=>setCountInStock(e.target.value)}></Form.Control>

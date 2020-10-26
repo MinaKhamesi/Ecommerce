@@ -6,7 +6,7 @@ export const getProducts = ()=> async (dispatch) =>{
         
         dispatch({type:PRODUCT_LIST_REQUEST});
 
-        const { data } = await axios.get('/products');
+        const { data } = await axios.get('/api/products');
         
         dispatch({type:PRODUCT_LIST_SUCCESS, payload: data });
 
@@ -22,7 +22,7 @@ export const getProduct = (id)=> async (dispatch) =>{
         
         dispatch({type:PRODUCT_DETAIL_REQUEST});
 
-        const { data } = await axios.get(`/products/${id}`);
+        const { data } = await axios.get(`/api/products/${id}`);
         
         dispatch({type:PRODUCT_DETAIL_SUCCESS, payload: data });
 
@@ -44,7 +44,7 @@ export const deleteProduct = (id)=> async (dispatch,getState) =>{
             }
         }
 
-        await axios.delete(`/products/${id}`, config);
+        await axios.delete(`/api/products/${id}`, config);
         
         dispatch({type:PRODUCT_DELETE_SUCCESS});
 
@@ -72,7 +72,7 @@ export const createProduct = ()=> async (dispatch,getState) =>{
             }
         }
 
-        const {data} = await axios.post(`/products`,{}, config);
+        const {data} = await axios.post(`/api/products`,{}, config);
         
         dispatch({type:PRODUCT_CREATE_SUCCESS, payload:data});
         
@@ -97,7 +97,7 @@ export const updateProduct = (id, formData)=> async (dispatch,getState) =>{
             }
         }
 
-        const {data} = await axios.put(`/products/${id}`,formData, config);
+        const {data} = await axios.put(`/api/products/${id}`,formData, config);
         
         dispatch({type:PRODUCT_UPDATE_SUCCESS, payload:data});
         dispatch({type:PRODUCT_DETAIL_SUCCESS, payload:data});
