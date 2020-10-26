@@ -4,9 +4,9 @@ import {LinkContainer} from 'react-router-bootstrap';
 import {Table, Button} from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { getOrders} from '../actions/userActions';
+import { getOrders} from '../actions/orderActions';
 
-const UserListScreen = ({history}) => {
+const OrderListScreen = ({history}) => {
     const dispatch = useDispatch();
 
     const orderListAll = useSelector(state=>state.orderListAll);
@@ -36,6 +36,7 @@ const UserListScreen = ({history}) => {
                 <tr>
                     <th>ID</th>
                     <th>USER</th>
+                    <th>EMAIL</th>
                     <th>PRICE</th>
                     <th>DATE</th>
                     <th>PAID</th>
@@ -47,8 +48,9 @@ const UserListScreen = ({history}) => {
                 {orders.map(order=><tr key={order._id}>
                 <td>{order._id}</td>
                 <td>{order.user.name}</td>
-                <td>
-                    {order.totalPrice}</td>
+                <td><a href={`mailto:${order.user.email}`}>{order.user.email}</a></td>
+                <td>{order.totalPrice}</td>
+                <td>{order.createdAt}</td>
                 <td>
                 {order.isPaid ? <p>{order.paidAt}</p> : <i className='fas fa-times' style={{color:'red'}}></i>}
                     </td>
@@ -56,7 +58,7 @@ const UserListScreen = ({history}) => {
                 {order.isDelivered ? <p>{order.deliveredAt}</p> : <i className='fas fa-times' style={{color:'red'}}></i>}
                     </td>
                 <td>
-                    <LinkContainer to={`/admin/order/${order._id}/edit`}>
+                    <LinkContainer to={`/orders/${order._id}`}>
                     <Button className='btn-sm btn-light'><i className='fas fa-edit'></i></Button>
                     </LinkContainer>
                     </td>
@@ -69,4 +71,4 @@ const UserListScreen = ({history}) => {
     )
 }
 
-export default UserListScreen;
+export default OrderListScreen;

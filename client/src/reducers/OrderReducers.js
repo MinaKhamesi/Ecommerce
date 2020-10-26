@@ -93,7 +93,7 @@ export const orderListMyReducer = (state={}, action) =>{
     }
 }
 
-export const orderListAllReducer = (state={}, action) =>{
+export const orderListAllReducer = (state={orders:[]}, action) =>{
     const {type, payload} = action;
     switch(type){
         case ORDER_LIST_ALL_REQUEST :
