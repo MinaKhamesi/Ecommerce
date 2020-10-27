@@ -3,6 +3,7 @@ import express from 'express';
 import {notFound, errorHandler} from './middleware/errorHandlerMiddleware.js';
 import dotenv from 'dotenv';
 import colors from 'colors';
+import morgan from 'morgan';
 import connectDB from './config/db.js';
 
 import ProductRouter from './routes/ProductRoute.js';
@@ -11,6 +12,11 @@ import OrderRouter from './routes/OrderRoute.js';
 import UploadRouter from './routes/UploadRoute.js';
 
 const app = express();
+
+if(process.env.NODE_ENV ==='development'){
+    app.use(morgan('dev'));
+}
+
 
 dotenv.config();
 
