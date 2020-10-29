@@ -8,8 +8,11 @@ import Product from '../models/ProductModel.js';
 //@Rout       /api/products
 //@access     Public
 export const getProducts = asyncHandler(async (req,res)=>{
-    
-    const products = await  Product.find({});
+    const search = req.query.keyword ? {name:{
+        $regex : req.query.keyword,
+        $options : 'i'
+    }} : {}
+    const products = await  Product.find(search);
     
     res.json(products);
 });

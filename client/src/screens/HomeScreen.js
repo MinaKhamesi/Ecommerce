@@ -7,15 +7,15 @@ import {Row, Col} from 'react-bootstrap';
 
 import {getProducts} from '../actions/ProductActions';
 
-const HomeScreen = () => {
-    
+const HomeScreen = ({match}) => {
+    const keyword = match.params.keyword;
     const dispatch = useDispatch();
     const productList = useSelector(state=> state.productList)
     const {loading, products, error} = productList;
     
     useEffect(()=>{
-        dispatch(getProducts());
-    },[dispatch])
+        dispatch(getProducts(keyword));
+    },[dispatch,keyword])
 
     
     
