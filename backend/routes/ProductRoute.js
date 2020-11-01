@@ -1,6 +1,6 @@
 import express from 'express';
 
-import {getProducts, getProductById, deleteProduct, createProduct, editProduct, createReview} from '../controllers/productController.js';
+import {getProducts, getProductById, deleteProduct, createProduct, editProduct, createReview, getTopProducts} from '../controllers/productController.js';
 
 import {protect, isAdmin} from '../middleware/auth.js';
 
@@ -8,6 +8,8 @@ const router = express.Router();
 
 
 router.route('/').get(getProducts).post(protect,isAdmin,createProduct);
+
+router.route('/top').get(getTopProducts);
 
 router.route('/:id').get(getProductById).delete(protect,isAdmin,deleteProduct).put(protect,isAdmin,editProduct);
 

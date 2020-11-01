@@ -40,6 +40,15 @@ export const getProductById = asyncHandler( async (req,res)=>{
     
 })
 
+//@Desc       get top products
+//@Rout       GET   /api/products/top
+//@access     Public
+export const getTopProducts = asyncHandler( async (req,res)=>{
+    const product = await Product.find({}).sort({rating:-1}).limit(3);
+    res.json(product);
+    
+})
+
 
 //@Desc       delete a product
 //@Rout       DELETE /api/products/:id
