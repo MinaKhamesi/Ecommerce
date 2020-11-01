@@ -4,14 +4,18 @@ import {LinkContainer} from 'react-router-bootstrap';
 import {Table, Button, Row, Col} from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
 import {PRODUCT_CREATE_RESET} from '../constants/productConstants';
 import { getProducts, deleteProduct, createProduct} from '../actions/ProductActions';
 
-const ProductListScreen = ({history}) => {
+const ProductListScreen = ({history, match}) => {
+
+    const pageNumber = match.params.pageNumber || 1;
+
     const dispatch = useDispatch();
 
     const productList = useSelector(state=>state.productList);
-    const {loading, error, products} = productList;
+    const {loading, error, products, page, pages} = productList;
 
     const userLogin = useSelector(state=>state.userLogin);
     const { userInfo} = userLogin;
@@ -33,9 +37,9 @@ const ProductListScreen = ({history}) => {
         if(createSuccess){
             history.push(`/admin/product/${product._id}/edit`)
         }else{
-            dispatch(getProducts());
+            dispatch(getProducts('',pageNumber));
         }
-    }, [history, dispatch, userInfo, success, createSuccess]);
+    }, [history, dispatch, userInfo, success, createSuccess, pageNumber]);
 
 
 
@@ -76,6 +80,7 @@ const ProductListScreen = ({history}) => {
 
 
         {loading? <Loader /> : error ? <Message variant='danger'>{error}</Message>: (
+            <>
             <Table hover striped bordered className='table-sm'>
             <thead>
                 <tr>
@@ -106,6 +111,8 @@ const ProductListScreen = ({history}) => {
                 </tr>)}
             </tbody>
             </Table>  
+            <Paginate page={page} pages={pages} keyword='' isAdmin={true}/>
+            </>
     )}
           
         </>
