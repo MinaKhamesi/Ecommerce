@@ -51,9 +51,14 @@ const Header = () => {
                                     <NavDropdown.Item onClick={handleLogout}>Log out</NavDropdown.Item>
                                 </NavDropdown>
                             ) : (
+                                <>
                                     <LinkContainer to='/login'>
                                     <Nav.Link> <i className="fas fa-user"></i>  Sign In</Nav.Link>
                             </LinkContainer>
+                            <LinkContainer to='/register'>
+                            <Nav.Link> <i class="fas fa-user-plus"></i>{'  '}Sign Up</Nav.Link>
+                                </LinkContainer>
+                                </>
                             )}
 
                             {userInfo && userInfo.isAdmin && (

@@ -60,6 +60,18 @@ const LoginScreen = ({location, history}) => {
                 New customer? <Link to={redirect!=='/' ? `/register?redirect=${redirect}` : '/register'}>register</Link>
                 </Col>
             </Row>
+            <Row className='mt-5'>
+                <Col>
+                <Button className='btn-block'  variant='dark' style={{fontSize:'0.6rem'}} onClick={e=>dispatch(login('user1@example.com','123456'))}>
+                    Sign In As A Guest 
+                </Button>
+                </Col>
+                <Col>
+                <Button className='btn-block'  variant='dark' style={{fontSize:'0.6rem'}} onClick={e=>dispatch(login('admin@example.com','123456'))}>
+                    Sign In As An Admin Guest 
+                </Button>
+                </Col>
+            </Row>
         </FormContainer>
         
     )
