@@ -6,13 +6,13 @@ const SearchBox = ({history}) => {
     const [keyword, setKeyword] = useState('');
 
     const handleSearch = e =>{
-        history.push(`/${keyword}`);
+        history.push(`/search/${keyword}`);
     }
 
     return (
-        <Form onSubmit={handleSearch} inline variant='outline-dark'>
-            <FormControl as='input' placeholder='Search Product...' value={keyword} onChange={e=>setKeyword(e.target.value)}/>
-            <Button as='button'>Search</Button>
+        <Form onSubmit={handleSearch} inline >
+            <FormControl as='input' placeholder='Search Product...' value={keyword} onChange={e=>setKeyword(e.target.value)} className='mr-1 ml-3'/>
+            <Button as='button' variant='outline-dark'>Search</Button>
         </Form>
     )
 }

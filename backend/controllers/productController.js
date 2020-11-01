@@ -8,13 +8,21 @@ import Product from '../models/ProductModel.js';
 //@Rout       /api/products
 //@access     Public
 export const getProducts = asyncHandler(async (req,res)=>{
+    const pageSize = 2;
+     
+    const page = Number(req.query.pageNumber) || 1
+
     const search = req.query.keyword ? {name:{
         $regex : req.query.keyword,
         $options : 'i'
     }} : {}
-    const products = await  Product.find(search);
+
+
+    const count = await Product.countDocuments(search);
+
+    const products = await  Product.find(search).limit(pageSize).skip(pageSize*(page-1));
     
-    res.json(products);
+    res.json({products, page,pages : Math.ceil(count/pageSize)});
 });
 
 
