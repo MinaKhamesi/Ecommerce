@@ -5,7 +5,7 @@ import { Row, Col, ListGroup, Card, Button, ListGroupItem,Image, Form, FormGroup
 import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-
+import Meta from '../components/Meta';
 
 import {getProduct, createReview} from '../actions/ProductActions';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
@@ -50,6 +50,7 @@ const ProductScreen = ({match, history}) => {
            <Link to='/' className="btn btn-light m-3">Go Back</Link>
     {loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> : (
         <>
+        <Meta title={product.name} description={product.description}/>
         <Row>
         <Col md={6}>
             <Image src={product.image} alt={product.name} fluid/>
@@ -110,7 +111,7 @@ const ProductScreen = ({match, history}) => {
     <Row>
         <Col md={5}>
             <h3>Reviews</h3>
-            {product.reviews.length===0 ? <Message>No review is submitted for this product</Message> : (<ListGroup variant='flush'>{product.reviews.map(review=><ListGroupItem>
+            {product.reviews.length===0 ? <Message>No review is submitted for this product</Message> : (<ListGroup variant='flush'>{product.reviews.map(review=><ListGroupItem key={review._id}>
                 <Rating value={review.rating}/>
                 <p>{review.comment}</p>
             </ListGroupItem>)}</ListGroup>)}
