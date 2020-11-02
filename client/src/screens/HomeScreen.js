@@ -13,8 +13,8 @@ import {getProducts} from '../actions/ProductActions';
 
 const HomeScreen = ({match}) => {
     
-    const keyword = match.params.keyword;
-    const pageNumber = match.params.pageNumber
+    const keyword = match.params.keyword || '';
+    const pageNumber = match.params.pageNumber || 1;
 
     const dispatch = useDispatch();
 
