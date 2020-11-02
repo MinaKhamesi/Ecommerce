@@ -33,7 +33,7 @@ Carousel section in homeScreen
   border-radius:50%;
   position:relative;
   left:50%;
-  transform: translateX(-50%);
+  transform: translateX(-55%);
 }
 .carousel a{
   margin:0 auto;

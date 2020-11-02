@@ -22,7 +22,7 @@ return loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message>
                 <Link to={`/product/${product._id}`}>
                 <Image src={product.image} alt={product.name} fluid/>
                 <Carousel.Caption className='carousel-caption'>
-                        <h3>{product.name} (${product.price})</h3>
+                        <h4>{product.name} (${product.price})</h4>
                 </Carousel.Caption>
                 </Link>
             </Carousel.Item>)}
